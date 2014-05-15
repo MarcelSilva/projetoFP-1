@@ -32,7 +32,6 @@ INSTALLED_APPS = (
     'core',
     'pessoas',
     'caixas',
-    'fluxoCaixa',
 )
 
 MIDDLEWARE_CLASSES = (
