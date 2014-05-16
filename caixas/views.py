@@ -81,9 +81,13 @@ def fluxodecaixa(request):
         try:
             contas = Conta.objects.filter(data__range=(datainicio, datafim))
             for conta in contas:
-                total += conta.valor
+              if conta.tipo == 'E':
+                total = total + conta.valor
+              if conta.tipo == 'S':
+                total = total - conta.valor
         except:
-            contas = []
+            contas = [] 
+                                      
         return render(request, 'caixas/formfluxodecaixa.html', {'contas' : contas, 'total': total ,'datainicio': datainicio, 'datafim': datafim})
 
     return render(request, 'caixas/formfluxodecaixa.html', {'contas' : []})
