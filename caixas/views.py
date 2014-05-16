@@ -73,7 +73,20 @@ def caixaExcluir(request, pk=0):
     except:
         return HttpResponseRedirect('/caixas/')
 
+def fluxodecaixa(request):
+    if request.method == 'POST':
+        datainicio = datetime.strptime(request.POST.get('datainicio', ''), '%d/%m/%Y %H:%M:%S')
+        datafim   = datetime.strptime(request.POST.get('datafim',   ''), '%d/%m/%Y %H:%M:%S')
+        total = 0
+        try:
+            contas = Conta.objects.filter(data__range=(datainicio, datafim))
+            for conta in contas:
+                total += conta.valor
+        except:
+            contas = []
+        return render(request, 'caixas/formfluxodecaixa.html', {'contas' : contas, 'total': total ,'datainicio': datainicio, 'datafim': datafim})
 
+    return render(request, 'caixas/formfluxodecaixa.html', {'contas' : []})
 
 
     
